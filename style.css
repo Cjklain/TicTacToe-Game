@@ -51,6 +51,9 @@ main {
 .box{
     border: black 4px solid;
     transition: 0.2s;
+    position: relative;
+    display: grid;
+    place-items: center;
 }
 
 .box:nth-child(-n+3){
@@ -100,4 +103,18 @@ main {
     background-color: gray;
     color: white;
     border-radius: 10px;
+}
+
+.cross::after{
+    content: 'X';
+    font-weight: 900;
+    font-size: 5rem;
+    position: absolute;
+}
+
+.circle::after{
+    content: 'O';
+    font-weight: 900;
+    font-size: 5rem;
+    position: absolute;
 }
