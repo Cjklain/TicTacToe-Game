@@ -19,29 +19,65 @@ function makeBoard(){
 
 function markMove(){
     let whoseTurn = [];
+    const dataToCheck = [];
+    // let oToCheck = [];
+    // let xToCheck = []
+
     const boxs = document.querySelectorAll('.box');
     boxs.forEach(box => box.addEventListener('click',(e) => {
         const clickedBox = e.currentTarget;
+        let position = parseInt(clickedBox.dataset.number); 
+        // let currentClass = false
+
         if(whoseTurn[whoseTurn.length-1] === 0){
             clickedBox.classList.add('circle')
             whoseTurn.push(1)
-            checkResult(clickedBox)
+            // dataToCheck.push([position,currentClass]);
+            // oToCheck.push(position)
+            // checkResult(dataToCheck)
+            // checkResult(xToCheck=null,oToCheck)
+            dataToCheck.push(clickedBox)
         } else {
             clickedBox.classList.add('cross') 
             whoseTurn.push(0)
-            checkResult(clickedBox)
+            // currentClass = true
+            // dataToCheck.push([position,currentClass]);
+            // xToCheck.push(position)
+            // checkResult(xToCheck, oToCheck=null)
+            // checkResult(dataToCheck)
+            dataToCheck.push(clickedBox);
         }
+        checkResult(dataToCheck)
+        // checkResult(dataToCheck)
         // check if win
-        console.log('clicked');
     },{once: true}))
 }
 
-const dataToCheck = [];
 
-function checkResult(e){
-    let position = e.dataset.number; 
-    let currentClass = e.classList.contains('cross');
-    let singleBox = [position,currentClass]
-    dataToCheck.push(singleBox);
+
+function checkResult(data){
+
+    const winnigCombination = [
+        [1, 2, 3],
+        [1, 4, 7],
+        [3, 6, 9],
+        [7, 8, 9],
+        [1, 5, 9],
+        [3, 5, 7],
+        [4, 5, 6],
+        [2, 5, 8],
+    ]
+
+    let xToCheck = data.filter(box=> box.classList.contains('cross'))
+    .map(x=>(x.dataset.number)).sort()
+    console.log(xToCheck);
 }
 
+// const wincom = [1, 2, 3]
+
+// const qwer = winnigCombination.map(element => {
+//     debugger
+//     return wincom.every(el => {
+//         return el.includes(element);
+//     });
+// })
