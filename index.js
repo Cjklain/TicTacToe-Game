@@ -1,7 +1,7 @@
 const startButton = document.querySelector('.start')
 startButton.addEventListener('click',makeBoard)
 const board = document.querySelector('.board')
-makeBoard();
+// makeBoard();
 
 function makeBoard(){
     const board = document.querySelector('.board')
@@ -20,42 +20,29 @@ function makeBoard(){
 function markMove(){
     let whoseTurn = [];
     const dataToCheck = [];
-    // let oToCheck = [];
-    // let xToCheck = []
+    let classNow = 'circle'
 
     const boxs = document.querySelectorAll('.box');
     boxs.forEach(box => box.addEventListener('click',(e) => {
         const clickedBox = e.currentTarget;
-        let position = parseInt(clickedBox.dataset.number); 
-        // let currentClass = false
 
-        if(whoseTurn[whoseTurn.length-1] === 0){
+        if(classNow === 'cross'){
             clickedBox.classList.add('circle')
-            whoseTurn.push(1)
-            // dataToCheck.push([position,currentClass]);
-            // oToCheck.push(position)
-            // checkResult(dataToCheck)
-            // checkResult(xToCheck=null,oToCheck)
+            classNow = 'circle';
             dataToCheck.push(clickedBox)
         } else {
-            clickedBox.classList.add('cross') 
-            whoseTurn.push(0)
-            // currentClass = true
-            // dataToCheck.push([position,currentClass]);
-            // xToCheck.push(position)
-            // checkResult(xToCheck, oToCheck=null)
-            // checkResult(dataToCheck)
+            clickedBox.classList.add('cross')
+            classNow = 'cross'; 
             dataToCheck.push(clickedBox);
         }
-        checkResult(dataToCheck)
-        // checkResult(dataToCheck)
-        // check if win
+
+        checkResult(dataToCheck, classNow)
     },{once: true}))
 }
 
 
 
-function checkResult(data){
+function checkResult(data, classNow){
 
     const winnigCombination = [
         [1, 2, 3],
@@ -68,16 +55,49 @@ function checkResult(data){
         [2, 5, 8],
     ]
 
-    let xToCheck = data.filter(box=> box.classList.contains('cross'))
-    .map(x=>(x.dataset.number)).sort()
-    console.log(xToCheck);
+    console.log(data, classNow);
+
+    const preperToCheck = data.filter(box=> box.classList.contains(classNow))
+    .map(x=>parseInt((x.dataset.number))).sort()
+    console.log(preperToCheck);
+
+    const checking = winnigCombination.some(combination=>{
+    return combination.every(comb => {
+        return preperToCheck.includes(comb)
+        })
+    })
+    console.log(checking);
+    if(checking){
+        console.log('winner');
+        displayMessage(classNow)
+    } else if (data.length === 9){
+        displayMessage('draw')
+    }
 }
 
-// const wincom = [1, 2, 3]
+function displayMessage(classNow){
+    const ressultDiv = document.querySelector('.result');
+    const messageSpan = document.querySelector('.winner');
+    const resetButton = document.querySelector('.reset')
+    console.log(classNow);
+    const playerWhoWon = classNow==='draw' ? "it's a draw" : `winner is player with ${classNow==='cross' ? 'X' : 'Y'}`;
+    
+    messageSpan.innerText = playerWhoWon;
+    ressultDiv.classList.add('open');
 
-// const qwer = winnigCombination.map(element => {
-//     debugger
-//     return wincom.every(el => {
-//         return el.includes(element);
-//     });
-// })
+    resetButton.addEventListener('click', reset)
+}
+
+function reset(){
+    const ressultDiv = document.querySelector('.result');
+    const boxes = document.querySelectorAll('.box')
+    const board = document.querySelector('.board')
+
+    boxes.forEach(box => board.removeChild(box))
+    ressultDiv.classList.remove('open')
+    makeBoard();
+
+
+    const box4 = document.querySelector('[data-number="4"]')
+    console.log(box4);
+}
