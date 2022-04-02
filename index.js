@@ -62,7 +62,6 @@ function checkResult(data, classNow){
         })
     })
     if(checking){
-        console.log('winner');
         displayMessage(classNow)
     } else if (data.length === 9){
         displayMessage('draw')
@@ -90,6 +89,4 @@ function reset(){
     boxes.forEach(box => board.removeChild(box))
     ressultDiv.classList.remove('open')
     makeBoard();
-
-    const box4 = document.querySelector('[data-number="4"]')
 }
