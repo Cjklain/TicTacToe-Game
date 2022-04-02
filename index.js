@@ -1,7 +1,7 @@
-const startButton = document.querySelector('.start')
-startButton.addEventListener('click',makeBoard)
-const board = document.querySelector('.board')
-// makeBoard();
+const waitForUser = (() => {
+    const startButton = document.querySelector('.start')
+    startButton.addEventListener('click',makeBoard)
+})();
 
 function makeBoard(){
     const board = document.querySelector('.board')
@@ -39,8 +39,6 @@ function markMove(){
         checkResult(dataToCheck, classNow)
     },{once: true}))
 }
-
-
 
 function checkResult(data, classNow){
 
