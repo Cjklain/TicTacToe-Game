@@ -53,18 +53,14 @@ function checkResult(data, classNow){
         [2, 5, 8],
     ]
 
-    console.log(data, classNow);
-
     const preperToCheck = data.filter(box=> box.classList.contains(classNow))
     .map(x=>parseInt((x.dataset.number))).sort()
-    console.log(preperToCheck);
 
     const checking = winnigCombination.some(combination=>{
     return combination.every(comb => {
         return preperToCheck.includes(comb)
         })
     })
-    console.log(checking);
     if(checking){
         console.log('winner');
         displayMessage(classNow)
@@ -77,7 +73,7 @@ function displayMessage(classNow){
     const ressultDiv = document.querySelector('.result');
     const messageSpan = document.querySelector('.winner');
     const resetButton = document.querySelector('.reset')
-    console.log(classNow);
+
     const playerWhoWon = classNow==='draw' ? "it's a draw" : `winner is player with ${classNow==='cross' ? 'X' : 'Y'}`;
     
     messageSpan.innerText = playerWhoWon;
@@ -95,7 +91,5 @@ function reset(){
     ressultDiv.classList.remove('open')
     makeBoard();
 
-
     const box4 = document.querySelector('[data-number="4"]')
-    console.log(box4);
 }
